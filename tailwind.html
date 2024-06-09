@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Enhanced Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --text-color: #333;
+        }
+        /* Additional Tailwind CSS customization */
+        @layer utilities {
+            .scroll-smooth {
+                scroll-behavior: smooth;
+            }
+        }
+        /* Custom styles for semi-blurred navbar */
+        .blurred-nav {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        /* Curtain effect */
+        .curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 100;
+            pointer-events: none;
+            transform: translateX(-100%);
+            transition: transform 1s;
+        }
+        .curtain.active {
+            transform: translateX(0);
+        }
+        .curtain.end {
+            transform: translateX(100%);
+        }
+        /* Transition for Home section text */
+        .home-section h1 {
+            animation: text-fade 2s ease-in-out forwards;
+        }
+        @keyframes text-fade {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fadeIn {
+            animation-name: fadeIn;
+            animation-duration: 1s;
+        }
+        .fadeOut {
+            animation-name: fadeIn;
+            animation-duration: 1s;
+            animation-direction: reverse;
+        }
+        .button-animation:hover {
+            transform: translateY(-3px);
+            transition: transform 0.2s ease-in-out;
+        }
+        .home-section p {
+            animation: text-fade 2s ease-in-out forwards 0.5s;
+        }
+        /* Button styling */
+        .learn-more-btn {
+            padding: 0.25rem 0.5rem; /* Adjusted padding */
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.5); /* Reduced shadow */
+            font-size: 0.75rem; /* Further reduce font size */
+        }
+        /* Full-screen background image for hero section */
+        .hero-section {
+            background-image: url('your-image-url.jpg'); /* Replace 'your-image-url.jpg' with your image URL */
+            background-size: cover;
+            background-position: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
+        }
+        /* Hover effect on project cards */
+        .project-card {
+            perspective: 1000px;
+            transition: transform 0.5s;
+            display: flex;
+        }
+        .project-card:hover .card-inner {
+            transform: rotateY(180deg);
+            flex: 1;
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+        .card-front, .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+        }
+        .card-front {
+            background-color: #fff;
+            z-index: 1;
+        }
+        .card-back {
+            background-color: #f7fafc;
+            transform: rotateY(180deg);
+        }
+        /* Footer styling */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900 scroll-smooth">
+
+    <!-- Blurred Navbar -->
+    <nav class="blurred-nav fixed w-full z-20 top-0 left-0 border-b border-gray-200">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#home" class="text-xl font-bold text-blue-600">My Website</a>
+            <div class="space-x-4">
+                <a href="#home" class="nav-link text-gray-900 hover:text-blue-600 transition duration-300">Home</a>
+                <a href="#about" class="nav-link text-gray-900 hover:text-blue-600 transition duration-300">About</a>
+                <a href="#projects" class="nav-link text-gray-900 hover:text-blue-600 transition duration-300">Projects</a>
+                <a href="#contact" class="nav-link text-gray-900 hover:text-blue-600 transition duration-300">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Curtain Overlay -->
+    <div class="curtain" id="curtain"></div>
+
+    <!-- Main Content -->
+    <div class="pt-20 p-4">
+
+        <!-- Home Section -->
+        <section id="home" class="h-screen py-20 bg-white text-gray-900 text-center home-section hero-section">
+            <div class="container mx-auto px-4 relative z-10 flex flex-col justify-center h-full">
+                <h1 class="text-5xl font-bold mb-4">Welcome to My Website</h1>
+                <p class="text-lg mb-6">A place where you can learn more about me and my projects.</p>
+                <button class="inline-block bg-gray-300 text-black font-bold py-1 px-2 rounded-full hover:bg-gray-400 shadow-lg shadow-black transition duration-300 text-sm">
+                    Learn More
+                </button>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="h-screen py-20 bg-gray-50 text-gray-900 text-center">
+            <div class="container mx-auto px-4 flex flex-col justify-center h-full">
+                <h2 class="text-4xl font-bold text-center mb-12">About Me</h2>
+                <p class="text-center max-w-3xl mx-auto text-lg leading-relaxed">Lorem ipsum dolor sit amet
+                </div>
+            </section>
+    
+            <!-- Projects Section -->
+            <section id="projects" class=" h-screen py-20 bg-gray-200">
+                <div class="container mx-auto px-4 h-full">
+                    <h2 class="text-4xl font-bold text-center mb-12">My Projects</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="project-card">
+                            <div class="card-inner">
+                                <div class="card-front bg-white p-6 shadow-lg rounded-lg">
+                                    <img src="https://via.placeholder.com/400" alt="Project Four" class="w-full h-48 object-cover rounded-t-lg">
+                                    <h3 class="text-2xl font-bold mt-4 mb-2">Project Four</h3>
+                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="card-back bg-gray-100 p-6 shadow-lg rounded-lg">
+                                    <a href="#" class="text-blue-500 hover:underline">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Project card -->
+                        <div class="project-card">
+                            <div class="card-inner">
+                                <div class="card-front bg-white p-6 shadow-lg rounded-lg">
+                                    <img src="https://via.placeholder.com/400" alt="Project Five" class="w-full h-48 object-cover rounded-t-lg">
+                                    <h3 class="text-2xl font-bold mt-4 mb-2">Project Five</h3>
+                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="card-back bg-gray-100 p-6 shadow-lg rounded-lg">
+                                    <a href="#" class="text-blue-500 hover:underline">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Project card -->
+                        <div class="project-card">
+                            <div class="card-inner">
+                                <div class="card-front bg-white p-6 shadow-lg rounded-lg">
+                                    <img src="https://via.placeholder.com/400" alt="Project Six" class="w-full h-48 object-cover rounded-t-lg">
+                                    <h3 class="text-2xl font-bold mt-4 mb-2">Project Six</h3>
+                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="card-back bg-gray-100 p-6 shadow-lg rounded-lg">
+                                    <a href="#" class="text-blue-500 hover:underline">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Contact Us s-->
+            <section id="contact" class="py-20">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-4xl font-bold text-center mb-12">Contact Us</h2>
+                    <form class="max-w-2xl mx-auto bg-white p-8 shadow-lg rounded-lg space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-bold mb-2">Name</label>
+                            <input type="text" id="name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-bold mb-2">Email</label>
+                            <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your Email">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-bold mb-2">Message</label>
+                            <textarea id="message" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your Message"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition duration-300">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+    
+            <!-- Footer Section -->
+            <footer>
+                <p>© 2024 My Website. All rights reserved.</p>
+                <p>Designed by You</p>
+            </footer>
+    
+        </div>
+    
+        <script>
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    const curtain = document.getElementById('curtain');
+                    curtain.classList.add('active');
+                    
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                        curtain.classList.add('end');
+                    }, 1000); 
+    
+                    setTimeout(() => {
+                        curtain.classList.remove('active', 'end');
+                    }, 2000); 
+                });
+            });
+        </script>
+    
+    </body>
+    </html>
+    
